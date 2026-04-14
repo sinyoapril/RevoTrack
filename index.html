@@ -1,276 +1,730 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>RevoTrack - Maintenance App</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RevoTrack - Maintenance App</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="RevoTrack" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#4f46e5" />
 
-  <!-- Meta Tags untuk PWA (Agar terlihat seperti App asli) -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="RevoTrack">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#4f46e5">
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+"
+    />
 
-  <!-- Ikon Aplikasi Terintegrasi (Data URI SVG) -->
-  <link rel="apple-touch-icon"
-    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
 
-  <!-- Manifest Sederhana -->
-  <link rel="manifest"
-    href='data:application/json,{"name":"RevoTrack","short_name":"RevoTrack","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#4f46e5","icons":[{"src":"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+","sizes":"512x512","type":"image/svg+xml"}]}'>
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+      }
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React & Babel -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+      header {
+        padding-top: max(1rem, env(safe-area-inset-top));
+      }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
 
-    /* Penanganan Notch iPhone */
-    header {
-      padding-top: max(1rem, env(safe-area-inset-top));
-    }
+      .slide-up {
+        animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+      }
 
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  </style>
-</head>
-
-<body class="bg-slate-50">
-  <div id="root"></div>
-
-  <script type="text/babel">
-    const { useState, useEffect, useMemo } = React;
-
-    const Icon = ({ name, className }) => {
-      useEffect(() => {
-        if (window.lucide) window.lucide.createIcons();
-      }, [name]);
-      return <i data-lucide={name} className={className}></i>;
-    };
-
-    const MAINTENANCE_DEFAULTS = [
-      { id: 'oil', name: 'Oli Mesin', interval: 4000, icon: 'droplets', color: 'bg-amber-500' },
-      { id: 'spark', name: 'Busi', interval: 8000, icon: 'zap', color: 'bg-blue-500' },
-      { id: 'air', name: 'Filter Udara', interval: 16000, icon: 'wind', color: 'bg-teal-500' },
-      { id: 'chain', name: 'Rantai Roda', interval: 1000, icon: 'settings', color: 'bg-slate-600' },
-      { id: 'brake', name: 'Kampas Rem', interval: 4000, icon: 'disc', color: 'bg-rose-500' },
-      { id: 'valve', name: 'Celah Klep', interval: 4000, icon: 'wrench', color: 'bg-indigo-500' },
-    ];
-
-    function App() {
-      const [currentOdo, setCurrentOdo] = useState(0);
-      const [tempOdo, setTempOdo] = useState("");
-      const [logs, setLogs] = useState({});
-      const [loading, setLoading] = useState(true);
-      const [activeTab, setActiveTab] = useState('dashboard');
-
-      useEffect(() => {
-        const savedOdo = localStorage.getItem('revo_odo');
-        const savedLogs = localStorage.getItem('revo_logs');
-        if (savedOdo) {
-          const odo = parseInt(savedOdo);
-          setCurrentOdo(odo);
-          setTempOdo(odo.toString());
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
         }
-        if (savedLogs) setLogs(JSON.parse(savedLogs));
-        setLoading(false);
-      }, []);
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
 
-      const updateOdo = () => {
-        const newOdo = parseInt(tempOdo);
-        if (isNaN(newOdo)) return;
-        setCurrentOdo(newOdo);
-        localStorage.setItem('revo_odo', newOdo.toString());
-      };
+      .fade-in {
+        animation: fadeIn 0.2s ease forwards;
+      }
 
-      const resetMaintenance = (item) => {
-        const newLogs = {
-          ...logs,
-          [item.id]: {
-            lastServiceAt: currentOdo,
-            updatedAt: new Date().toISOString()
-          }
-        };
-        setLogs(newLogs);
-        localStorage.setItem('revo_logs', JSON.stringify(newLogs));
-      };
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
 
-      const statusList = useMemo(() => {
-        return MAINTENANCE_DEFAULTS.map(item => {
-          const log = logs[item.id] || { lastServiceAt: 0 };
-          const kmSinceService = currentOdo - log.lastServiceAt;
-          const remaining = item.interval - kmSinceService;
-          const percentUsed = Math.min(100, Math.max(0, (kmSinceService / item.interval) * 100));
-          let status = "aman";
-          if (percentUsed >= 90) status = "bahaya";
-          else if (percentUsed >= 75) status = "peringatan";
-          return { ...item, kmSinceService, remaining, percentUsed, status };
+  <body class="bg-slate-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo } = React;
+
+      const Icon = ({ name, className }) => {
+        useEffect(() => {
+          if (window.lucide) window.lucide.createIcons();
         });
-      }, [currentOdo, logs]);
+        return <i data-lucide={name} className={className}></i>;
+      };
 
-      if (loading) return <div className="flex h-screen items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+      const ICON_OPTIONS = [
+        { value: "droplets", label: "Oli" },
+        { value: "zap", label: "Listrik" },
+        { value: "wind", label: "Filter" },
+        { value: "settings", label: "Mekanik" },
+        { value: "disc", label: "Rem" },
+        { value: "wrench", label: "Kunci" },
+        { value: "thermometer", label: "Suhu" },
+        { value: "gauge", label: "Tekanan" },
+        { value: "battery", label: "Aki" },
+        { value: "shield", label: "Proteksi" },
+      ];
 
-      return (
-        <div className="min-h-screen pb-24 max-w-md mx-auto">
-          <header className="bg-white border-b sticky top-0 z-10 px-6 py-4 flex justify-between items-center shadow-sm">
-            <div className="flex items-center gap-2">
-              <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-md">
-                <Icon name="settings" className="w-5 h-5" />
+      const COLOR_OPTIONS = [
+        { value: "bg-amber-500", label: "Amber" },
+        { value: "bg-blue-500", label: "Biru" },
+        { value: "bg-teal-500", label: "Teal" },
+        { value: "bg-slate-600", label: "Abu" },
+        { value: "bg-rose-500", label: "Merah" },
+        { value: "bg-indigo-500", label: "Ungu" },
+        { value: "bg-green-500", label: "Hijau" },
+        { value: "bg-orange-500", label: "Oranye" },
+        { value: "bg-pink-500", label: "Pink" },
+        { value: "bg-cyan-500", label: "Cyan" },
+      ];
+
+      const DEFAULT_ITEMS = [
+        {
+          id: "oil",
+          name: "Oli Mesin",
+          interval: 4000,
+          icon: "droplets",
+          color: "bg-amber-500",
+          isDefault: true,
+        },
+        {
+          id: "spark",
+          name: "Busi",
+          interval: 8000,
+          icon: "zap",
+          color: "bg-blue-500",
+          isDefault: true,
+        },
+        {
+          id: "air",
+          name: "Filter Udara",
+          interval: 16000,
+          icon: "wind",
+          color: "bg-teal-500",
+          isDefault: true,
+        },
+        {
+          id: "chain",
+          name: "Rantai Roda",
+          interval: 1000,
+          icon: "settings",
+          color: "bg-slate-600",
+          isDefault: true,
+        },
+        {
+          id: "brake",
+          name: "Kampas Rem",
+          interval: 4000,
+          icon: "disc",
+          color: "bg-rose-500",
+          isDefault: true,
+        },
+        {
+          id: "valve",
+          name: "Celah Klep",
+          interval: 4000,
+          icon: "wrench",
+          color: "bg-indigo-500",
+          isDefault: true,
+        },
+      ];
+
+      function AddItemModal({ onClose, onSave, currentOdo }) {
+        const [name, setName] = useState("");
+        const [interval, setInterval] = useState("");
+        const [icon, setIcon] = useState("settings");
+        const [color, setColor] = useState("bg-indigo-500");
+        const [lastService, setLastService] = useState(currentOdo.toString());
+
+        const handleSave = () => {
+          if (!name.trim() || !interval || parseInt(interval) <= 0) return;
+          onSave({
+            id: "custom_" + Date.now(),
+            name: name.trim(),
+            interval: parseInt(interval),
+            icon,
+            color,
+            isDefault: false,
+            lastServiceAt: parseInt(lastService) || 0,
+          });
+          onClose();
+        };
+
+        const isValid =
+          name.trim().length > 0 && interval && parseInt(interval) > 0;
+
+        return (
+          <div
+            className="fixed inset-0 z-50 flex items-end fade-in"
+            style={{ background: "rgba(0,0,0,0.4)" }}
+            onClick={onClose}
+          >
+            <div
+              className="w-full bg-white rounded-t-3xl slide-up overflow-hidden"
+              style={{
+                maxHeight: "92vh",
+                overflowY: "auto",
+                paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Handle bar */}
+              <div className="flex justify-center pt-3 pb-1">
+                <div className="w-10 h-1 bg-slate-200 rounded-full"></div>
               </div>
-              <h1 className="font-black text-xl italic tracking-tight uppercase text-slate-900">RevoTrack</h1>
-            </div>
-          </header>
 
-          <main className="p-4 space-y-6">
-            {/* Odometer Card Terintegrasi */}
-            <div className="bg-white rounded-3xl p-6 shadow-sm border">
-              <label className="text-xs font-bold text-slate-400 mb-3 block uppercase tracking-widest">
-                Odometer Saat Ini (KM)
-              </label>
-              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                <input
-                  type="number"
-                  value={tempOdo}
-                  onChange={(e) => setTempOdo(e.target.value)}
-                  className="min-w-0 bg-slate-100 rounded-2xl text-2xl font-black px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
-                  placeholder="0"
-                />
-                <button
-                  onClick={updateOdo}
-                  className={`shrink-0 w-14 h-[52px] rounded-2xl transition-all flex items-center justify-center font-black text-xs border ${parseInt(tempOdo) !== currentOdo ? "bg-indigo-600 text-white border-indigo-600 active:scale-[0.98]" : "bg-slate-200 text-slate-600 border-slate-300"}`}
-                >
-                  <Icon name="save" className="w-4 h-4" />
-                </button>
+              <div className="px-6 pt-2 pb-6">
+                {/* Header */}
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-2xl font-black italic uppercase text-slate-900 tracking-tighter">
+                    Tambah Item
+                  </h2>
+                  <button
+                    onClick={onClose}
+                    className="p-2 bg-slate-100 rounded-full text-slate-500 active:scale-90 transition-all"
+                  >
+                    <Icon name="x" className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="space-y-5">
+                  {/* Preview */}
+                  <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                    <div
+                      className={`${color} p-3 rounded-2xl text-white flex items-center justify-center`}
+                    >
+                      <Icon name={icon} className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-800">
+                        {name || "Nama Item..."}
+                      </p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase">
+                        {interval
+                          ? parseInt(interval).toLocaleString("id-ID") + " KM"
+                          : "0 KM"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Nama */}
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                      Nama Komponen
+                    </label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="cth. Kopling, Ban, Lampu..."
+                      className="w-full bg-slate-100 rounded-2xl text-base font-bold px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
+                    />
+                  </div>
+
+                  {/* Interval */}
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                      Interval Penggantian (KM)
+                    </label>
+                    <input
+                      type="number"
+                      value={interval}
+                      onChange={(e) => setInterval(e.target.value)}
+                      placeholder="cth. 5000"
+                      className="w-full bg-slate-100 rounded-2xl text-base font-bold px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
+                    />
+                  </div>
+
+                  {/* Last Service */}
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                      Terakhir Servis Pada (KM)
+                    </label>
+                    <input
+                      type="number"
+                      value={lastService}
+                      onChange={(e) => setLastService(e.target.value)}
+                      placeholder="0"
+                      className="w-full bg-slate-100 rounded-2xl text-base font-bold px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
+                    />
+                    <p className="text-[10px] text-slate-400 mt-1.5 font-bold px-1">
+                      Isi 0 jika belum pernah servis
+                    </p>
+                  </div>
+
+                  {/* Ikon */}
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                      Ikon
+                    </label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {ICON_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => setIcon(opt.value)}
+                          className={`flex flex-col items-center gap-1 py-2.5 rounded-2xl border transition-all active:scale-95 ${icon === opt.value ? "bg-indigo-50 border-indigo-400 text-indigo-600" : "bg-slate-50 border-slate-200 text-slate-400"}`}
+                        >
+                          <Icon name={opt.value} className="w-5 h-5" />
+                          <span className="text-[9px] font-black uppercase">
+                            {opt.label}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Warna */}
+                  <div>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">
+                      Warna
+                    </label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {COLOR_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => setColor(opt.value)}
+                          className={`flex flex-col items-center gap-1.5 py-2.5 rounded-2xl border transition-all active:scale-95 ${color === opt.value ? "border-slate-400 bg-slate-100" : "border-slate-200 bg-slate-50"}`}
+                        >
+                          <div
+                            className={`${opt.value} w-6 h-6 rounded-full ${color === opt.value ? "ring-2 ring-offset-1 ring-slate-400" : ""}`}
+                          ></div>
+                          <span className="text-[9px] font-black uppercase text-slate-400">
+                            {opt.label}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tombol Simpan */}
+                  <button
+                    onClick={handleSave}
+                    disabled={!isValid}
+                    className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg transition-all active:scale-95 ${isValid ? "bg-indigo-600 text-white shadow-indigo-200" : "bg-slate-200 text-slate-400 cursor-not-allowed"}`}
+                  >
+                    Simpan Item
+                  </button>
+                </div>
               </div>
             </div>
+          </div>
+        );
+      }
 
-            <div className="space-y-4">
-              <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest px-1">Status Perawatan</h2>
-              {statusList.map(item => (
-                <div key={item.id} className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 group transition-all active:bg-slate-50">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`${item.color} p-3 rounded-2xl text-white shadow-lg shadow-current/20 flex items-center justify-center`}><Icon name={item.icon} className="w-5 h-5" /></div>
-                      <div>
-                        <h3 className="font-bold text-slate-800">{item.name}</h3>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase">{item.interval} KM</p>
+      function App() {
+        const [currentOdo, setCurrentOdo] = useState(0);
+        const [tempOdo, setTempOdo] = useState("");
+        const [logs, setLogs] = useState({});
+        const [customItems, setCustomItems] = useState([]);
+        const [loading, setLoading] = useState(true);
+        const [activeTab, setActiveTab] = useState("dashboard");
+        const [showAddModal, setShowAddModal] = useState(false);
+
+        useEffect(() => {
+          const savedOdo = localStorage.getItem("revo_odo");
+          const savedLogs = localStorage.getItem("revo_logs");
+          const savedCustom = localStorage.getItem("revo_custom_items");
+          if (savedOdo) {
+            const odo = parseInt(savedOdo);
+            setCurrentOdo(odo);
+            setTempOdo(odo.toString());
+          }
+          if (savedLogs) setLogs(JSON.parse(savedLogs));
+          if (savedCustom) setCustomItems(JSON.parse(savedCustom));
+          setLoading(false);
+        }, []);
+
+        const allItems = useMemo(
+          () => [...DEFAULT_ITEMS, ...customItems],
+          [customItems],
+        );
+
+        const updateOdo = () => {
+          const newOdo = parseInt(tempOdo);
+          if (isNaN(newOdo)) return;
+          setCurrentOdo(newOdo);
+          localStorage.setItem("revo_odo", newOdo.toString());
+        };
+
+        const resetMaintenance = (item) => {
+          const newLogs = {
+            ...logs,
+            [item.id]: {
+              lastServiceAt: currentOdo,
+              updatedAt: new Date().toISOString(),
+            },
+          };
+          setLogs(newLogs);
+          localStorage.setItem("revo_logs", JSON.stringify(newLogs));
+        };
+
+        const deleteCustomItem = (itemId) => {
+          if (!confirm("Hapus item ini?")) return;
+          const updated = customItems.filter((i) => i.id !== itemId);
+          setCustomItems(updated);
+          localStorage.setItem("revo_custom_items", JSON.stringify(updated));
+          // Hapus log-nya juga
+          const newLogs = { ...logs };
+          delete newLogs[itemId];
+          setLogs(newLogs);
+          localStorage.setItem("revo_logs", JSON.stringify(newLogs));
+        };
+
+        const handleAddItem = (newItem) => {
+          const updated = [...customItems, newItem];
+          setCustomItems(updated);
+          localStorage.setItem("revo_custom_items", JSON.stringify(updated));
+
+          // Simpan log awal berdasarkan lastServiceAt dari form
+          const newLogs = {
+            ...logs,
+            [newItem.id]: {
+              lastServiceAt: newItem.lastServiceAt,
+              updatedAt: new Date().toISOString(),
+            },
+          };
+          setLogs(newLogs);
+          localStorage.setItem("revo_logs", JSON.stringify(newLogs));
+        };
+
+        const statusList = useMemo(() => {
+          return allItems.map((item) => {
+            const log = logs[item.id] || { lastServiceAt: 0 };
+            const kmSinceService = currentOdo - log.lastServiceAt;
+            const remaining = item.interval - kmSinceService;
+            const percentUsed = Math.min(
+              100,
+              Math.max(0, (kmSinceService / item.interval) * 100),
+            );
+            let status = "aman";
+            if (percentUsed >= 90) status = "bahaya";
+            else if (percentUsed >= 75) status = "peringatan";
+            return { ...item, kmSinceService, remaining, percentUsed, status };
+          });
+        }, [currentOdo, logs, allItems]);
+
+        if (loading)
+          return (
+            <div className="flex h-screen items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            </div>
+          );
+
+        return (
+          <div className="min-h-screen pb-24 max-w-md mx-auto">
+            <header className="bg-white border-b sticky top-0 z-10 px-6 py-4 flex justify-between items-center shadow-sm">
+              <div className="flex items-center gap-2">
+                <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-md">
+                  <Icon name="settings" className="w-5 h-5" />
+                </div>
+                <h1 className="font-black text-xl italic tracking-tight uppercase text-slate-900">
+                  RevoTrack
+                </h1>
+              </div>
+              <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">
+                {statusList.length} Item
+              </span>
+            </header>
+
+            <main className="p-4 space-y-6">
+              {/* Odometer Card */}
+              <div className="bg-white rounded-3xl p-6 shadow-sm border">
+                <label className="text-xs font-bold text-slate-400 mb-3 block uppercase tracking-widest">
+                  Odometer Saat Ini (KM)
+                </label>
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                  <input
+                    type="number"
+                    value={tempOdo}
+                    onChange={(e) => setTempOdo(e.target.value)}
+                    className="min-w-0 bg-slate-100 rounded-2xl text-2xl font-black px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
+                    placeholder="0"
+                  />
+                  <button
+                    onClick={updateOdo}
+                    className={`shrink-0 w-14 h-[52px] rounded-2xl transition-all flex items-center justify-center font-black text-xs border ${parseInt(tempOdo) !== currentOdo ? "bg-indigo-600 text-white border-indigo-600 active:scale-[0.98]" : "bg-slate-200 text-slate-600 border-slate-300"}`}
+                  >
+                    <Icon name="save" className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest">
+                    Status Perawatan
+                  </h2>
+                  <button
+                    onClick={() => setShowAddModal(true)}
+                    className="flex items-center gap-1 text-[10px] font-black text-indigo-500 uppercase tracking-widest active:scale-95 transition-all"
+                  >
+                    <Icon name="plus-circle" className="w-4 h-4" />
+                    Tambah
+                  </button>
+                </div>
+
+                {statusList.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 group transition-all active:bg-slate-50"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={`${item.color} p-3 rounded-2xl text-white shadow-lg shadow-current/20 flex items-center justify-center`}
+                        >
+                          <Icon name={item.icon} className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <h3 className="font-bold text-slate-800">
+                              {item.name}
+                            </h3>
+                            {!item.isDefault && (
+                              <span className="text-[8px] font-black bg-indigo-100 text-indigo-500 px-1.5 py-0.5 rounded-md uppercase">
+                                Custom
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[10px] text-slate-400 font-bold uppercase">
+                            {item.interval.toLocaleString("id-ID")} KM
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider ${item.status === "bahaya" ? "bg-red-500 text-white" : item.status === "peringatan" ? "bg-amber-400 text-white" : "bg-emerald-500 text-white"}`}
+                        >
+                          {item.status === "aman"
+                            ? "Baik"
+                            : item.status === "peringatan"
+                              ? "Cek"
+                              : "Ganti"}
+                        </div>
+                        {!item.isDefault && (
+                          <button
+                            onClick={() => deleteCustomItem(item.id)}
+                            className="p-1.5 text-slate-300 hover:text-red-400 transition-all active:scale-90"
+                          >
+                            <Icon name="trash-2" className="w-4 h-4" />
+                          </button>
+                        )}
                       </div>
                     </div>
-                    <div className={`text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider ${item.status === 'bahaya' ? 'bg-red-500 text-white' : item.status === 'peringatan' ? 'bg-amber-400 text-white' : 'bg-emerald-500 text-white'}`}>
-                      {item.status === 'aman' ? 'Baik' : item.status === 'peringatan' ? 'Cek' : 'Ganti'}
+                    <div className="space-y-2.5 text-[11px] font-bold">
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 uppercase tracking-tight">
+                          TERPAKAI:{" "}
+                          {item.kmSinceService.toLocaleString("id-ID")} KM
+                        </span>
+                        <span
+                          className={
+                            item.remaining <= 0
+                              ? "text-red-500"
+                              : "text-slate-500"
+                          }
+                        >
+                          {item.remaining <= 0
+                            ? "TERLEWAT!"
+                            : `SISA ${item.remaining.toLocaleString("id-ID")} KM`}
+                        </span>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-1000 ease-out ${item.percentUsed >= 90 ? "bg-red-500" : item.percentUsed >= 75 ? "bg-amber-400" : "bg-emerald-500"}`}
+                          style={{ width: `${item.percentUsed}%` }}
+                        ></div>
+                      </div>
                     </div>
+                    <button
+                      onClick={() => {
+                        if (confirm(`Konfirmasi reset ${item.name}?`))
+                          resetMaintenance(item);
+                      }}
+                      className="mt-5 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-xl border border-dashed border-slate-200 transition-all active:scale-[0.98]"
+                    >
+                      Update Service Baru
+                    </button>
                   </div>
-                  <div className="space-y-2.5 text-[11px] font-bold">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400 uppercase tracking-tight">TERPAKAI: {item.kmSinceService} KM</span>
-                      <span className={item.remaining <= 0 ? "text-red-500" : "text-slate-500"}>
-                        {item.remaining <= 0 ? 'TERLEWAT!' : `SISA ${item.remaining} KM`}
-                      </span>
-                    </div>
-                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                      <div className={`h-full transition-all duration-1000 ease-out ${item.percentUsed >= 90 ? 'bg-red-500' : item.percentUsed >= 75 ? 'bg-amber-400' : 'bg-emerald-500'}`} style={{ width: `${item.percentUsed}%` }}></div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => { if (confirm(`Konfirmasi reset ${item.name}?`)) resetMaintenance(item) }}
-                    className="mt-5 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-xl border border-dashed border-slate-200 transition-all active:scale-[0.98]"
-                  >
-                    Update Service Baru
-                  </button>
-                </div>
-              ))}
-            </div>
-          </main>
+                ))}
 
-          {/* Navigasi Bawah */}
-          <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-12 py-4 pb-8 flex justify-between items-center z-20">
-            <button onClick={() => setActiveTab('dashboard')} className={`transition-all ${activeTab === 'dashboard' ? 'text-indigo-600 scale-110' : 'text-slate-300'}`}>
-              <Icon name="wrench" className="w-6 h-6" />
-            </button>
-
-            <div className="relative">
-              <button
-                onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="bg-indigo-600 text-white p-4 rounded-2xl shadow-xl shadow-indigo-200 -mt-12 border-4 border-white active:scale-90 transition-all"
-              >
-                <Icon name="plus" className="w-7 h-7" />
-              </button>
-            </div>
-
-            <button onClick={() => setActiveTab('history')} className={`transition-all ${activeTab === 'history' ? 'text-indigo-600 scale-110' : 'text-slate-300'}`}>
-              <Icon name="history" className="w-6 h-6" />
-            </button>
-          </nav>
-
-          {/* Riwayat Overlay */}
-          {activeTab === 'history' && (
-            <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto animate-in slide-in-from-bottom duration-300">
-              <div className="max-w-md mx-auto">
-                <div className="flex justify-between items-center mb-10">
-                  <h2 className="text-3xl font-black italic uppercase text-slate-900 tracking-tighter">Riwayat Log</h2>
-                  <button onClick={() => setActiveTab('dashboard')} className="p-3 bg-slate-100 rounded-full active:scale-90 transition-all text-slate-500">
-                    <Icon name="x" className="w-6 h-6" />
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {Object.keys(logs).length === 0 ? (
-                    <div className="text-center py-24 flex flex-col items-center gap-4">
-                      <Icon name="clipboard-list" className="w-12 h-12 text-slate-200" />
-                      <p className="text-slate-300 font-black uppercase italic tracking-widest">Belum ada riwayat</p>
-                    </div>
-                  ) : (
-                    Object.keys(logs).sort((a, b) => new Date(logs[b].updatedAt) - new Date(logs[a].updatedAt)).map(id => {
-                      const item = MAINTENANCE_DEFAULTS.find(d => d.id === id);
-                      const date = new Date(logs[id].updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                      return (
-                        <div key={id} className="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
-                          <div className={`${item?.color || 'bg-slate-500'} p-3 rounded-2xl text-white shadow-md shadow-current/20`}><Icon name={item?.icon || 'settings'} className="w-5 h-5" /></div>
-                          <div className="flex-1">
-                            <p className="font-bold text-slate-800">{item?.name || id}</p>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">{date} • Reset pada {logs[id].lastServiceAt} KM</p>
-                          </div>
-                        </div>
-                      )
-                    })
-                  )}
-                </div>
-
+                {/* Tambah Item CTA (empty-state style) */}
                 <button
-                  onClick={() => setActiveTab('dashboard')}
-                  className="mt-12 w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+                  onClick={() => setShowAddModal(true)}
+                  className="w-full py-5 bg-white border border-dashed border-indigo-200 rounded-3xl flex items-center justify-center gap-2 text-indigo-400 text-[11px] font-black uppercase tracking-widest transition-all active:scale-[0.98] active:bg-indigo-50"
                 >
-                  Kembali
+                  <Icon name="plus" className="w-4 h-4" />
+                  Tambah Item Maintenance
                 </button>
               </div>
-            </div>
-          )}
-        </div>
-      );
-    }
+            </main>
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
-</body>
+            {/* Navigasi Bawah */}
+            <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-12 py-4 pb-8 flex justify-between items-center z-20">
+              <button
+                onClick={() => setActiveTab("dashboard")}
+                className={`transition-all ${activeTab === "dashboard" ? "text-indigo-600 scale-110" : "text-slate-300"}`}
+              >
+                <Icon name="wrench" className="w-6 h-6" />
+              </button>
 
+              <div className="relative">
+                <button
+                  onClick={() => setShowAddModal(true)}
+                  className="bg-indigo-600 text-white p-4 rounded-2xl shadow-xl shadow-indigo-200 -mt-12 border-4 border-white active:scale-90 transition-all"
+                >
+                  <Icon name="plus" className="w-7 h-7" />
+                </button>
+              </div>
+
+              <button
+                onClick={() => setActiveTab("history")}
+                className={`transition-all ${activeTab === "history" ? "text-indigo-600 scale-110" : "text-slate-300"}`}
+              >
+                <Icon name="history" className="w-6 h-6" />
+              </button>
+            </nav>
+
+            {/* Add Item Modal */}
+            {showAddModal && (
+              <AddItemModal
+                onClose={() => setShowAddModal(false)}
+                onSave={handleAddItem}
+                currentOdo={currentOdo}
+              />
+            )}
+
+            {/* Riwayat Overlay */}
+            {activeTab === "history" && (
+              <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto">
+                <div className="max-w-md mx-auto">
+                  <div className="flex justify-between items-center mb-10">
+                    <h2 className="text-3xl font-black italic uppercase text-slate-900 tracking-tighter">
+                      Riwayat Log
+                    </h2>
+                    <button
+                      onClick={() => setActiveTab("dashboard")}
+                      className="p-3 bg-slate-100 rounded-full active:scale-90 transition-all text-slate-500"
+                    >
+                      <Icon name="x" className="w-6 h-6" />
+                    </button>
+                  </div>
+
+                  <div className="space-y-4">
+                    {Object.keys(logs).length === 0 ? (
+                      <div className="text-center py-24 flex flex-col items-center gap-4">
+                        <Icon
+                          name="clipboard-list"
+                          className="w-12 h-12 text-slate-200"
+                        />
+                        <p className="text-slate-300 font-black uppercase italic tracking-widest">
+                          Belum ada riwayat
+                        </p>
+                      </div>
+                    ) : (
+                      Object.keys(logs)
+                        .sort(
+                          (a, b) =>
+                            new Date(logs[b].updatedAt) -
+                            new Date(logs[a].updatedAt),
+                        )
+                        .map((id) => {
+                          const item = allItems.find((d) => d.id === id);
+                          const date = new Date(
+                            logs[id].updatedAt,
+                          ).toLocaleDateString("id-ID", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          });
+                          return (
+                            <div
+                              key={id}
+                              className="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm"
+                            >
+                              <div
+                                className={`${item?.color || "bg-slate-500"} p-3 rounded-2xl text-white shadow-md shadow-current/20`}
+                              >
+                                <Icon
+                                  name={item?.icon || "settings"}
+                                  className="w-5 h-5"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <p className="font-bold text-slate-800">
+                                  {item?.name || id}
+                                </p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">
+                                  {date} • Reset pada{" "}
+                                  {logs[id].lastServiceAt.toLocaleString(
+                                    "id-ID",
+                                  )}{" "}
+                                  KM
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => setActiveTab("dashboard")}
+                    className="mt-12 w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+                  >
+                    Kembali
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
 </html>
