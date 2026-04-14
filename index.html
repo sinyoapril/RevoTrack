@@ -1,454 +1,276 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RevoTrack - Maintenance App</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & Babel -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
 
-      body {
-        font-family: "Inter", sans-serif;
-      }
-    </style>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>RevoTrack - Maintenance App</title>
 
-  <body class="bg-slate-50">
-    <div id="root"></div>
+  <!-- Meta Tags untuk PWA (Agar terlihat seperti App asli) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="RevoTrack">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#4f46e5">
 
-    <script type="text/babel">
-      const { useState, useEffect, useMemo } = React;
+  <!-- Ikon Aplikasi Terintegrasi (Data URI SVG) -->
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+">
 
-      // Icons placeholder logic for browser environment
-      const Icon = ({ name, className }) => {
-        useEffect(() => {
-          if (window.lucide) window.lucide.createIcons();
-        }, [name]);
-        return <i data-lucide={name} className={className}></i>;
+  <!-- Manifest Sederhana -->
+  <link rel="manifest"
+    href='data:application/json,{"name":"RevoTrack","short_name":"RevoTrack","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#4f46e5","icons":[{"src":"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSIxMTIiIGZpbGw9IiM0RjQ2RTUiLz48cGF0aCBkPSJNMTAwIDQwMEMxMDAgNDAwIDIwMCAzODAgMjU2IDM4MEMzMTIgMzgwIDQxMiA0MDAgNDEyIDQwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE2MCAzNDBMMjEwIDI0MEgzMjBMMzYwIDM0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTgwIiBjeT0iMzQwIiByPSI0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxjaXJjbGUgY3g9IjM0MCIgY3k9IjM0MCIgcj0iNDAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMjAiLz48Y2lyY2xlIGN4PSIzODAiIGN5PSIxMzAiIHI9IjU1IiBmaWxsPSIjRUY0NDQ0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEyIi8+PHBhdGggZD0iTTM4MCAxMDBWMTYwTTM1MCAxMzBINTQxMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIxNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+","sizes":"512x512","type":"image/svg+xml"}]}'>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    /* Penanganan Notch iPhone */
+    header {
+      padding-top: max(1rem, env(safe-area-inset-top));
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    const Icon = ({ name, className }) => {
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      }, [name]);
+      return <i data-lucide={name} className={className}></i>;
+    };
+
+    const MAINTENANCE_DEFAULTS = [
+      { id: 'oil', name: 'Oli Mesin', interval: 4000, icon: 'droplets', color: 'bg-amber-500' },
+      { id: 'spark', name: 'Busi', interval: 8000, icon: 'zap', color: 'bg-blue-500' },
+      { id: 'air', name: 'Filter Udara', interval: 16000, icon: 'wind', color: 'bg-teal-500' },
+      { id: 'chain', name: 'Rantai Roda', interval: 1000, icon: 'settings', color: 'bg-slate-600' },
+      { id: 'brake', name: 'Kampas Rem', interval: 4000, icon: 'disc', color: 'bg-rose-500' },
+      { id: 'valve', name: 'Celah Klep', interval: 4000, icon: 'wrench', color: 'bg-indigo-500' },
+    ];
+
+    function App() {
+      const [currentOdo, setCurrentOdo] = useState(0);
+      const [tempOdo, setTempOdo] = useState("");
+      const [logs, setLogs] = useState({});
+      const [loading, setLoading] = useState(true);
+      const [activeTab, setActiveTab] = useState('dashboard');
+
+      useEffect(() => {
+        const savedOdo = localStorage.getItem('revo_odo');
+        const savedLogs = localStorage.getItem('revo_logs');
+        if (savedOdo) {
+          const odo = parseInt(savedOdo);
+          setCurrentOdo(odo);
+          setTempOdo(odo.toString());
+        }
+        if (savedLogs) setLogs(JSON.parse(savedLogs));
+        setLoading(false);
+      }, []);
+
+      const updateOdo = () => {
+        const newOdo = parseInt(tempOdo);
+        if (isNaN(newOdo)) return;
+        setCurrentOdo(newOdo);
+        localStorage.setItem('revo_odo', newOdo.toString());
       };
 
-      const MAINTENANCE_DEFAULTS = [
-        {
-          id: "oil",
-          name: "Oli Mesin",
-          interval: 4000,
-          icon: "droplets",
-          color: "bg-amber-500",
-        },
-        {
-          id: "spark",
-          name: "Busi",
-          interval: 8000,
-          icon: "zap",
-          color: "bg-blue-500",
-        },
-        {
-          id: "air",
-          name: "Filter Udara",
-          interval: 16000,
-          icon: "wind",
-          color: "bg-teal-500",
-        },
-        {
-          id: "chain",
-          name: "Rantai Roda",
-          interval: 1000,
-          icon: "settings",
-          color: "bg-slate-600",
-        },
-        {
-          id: "brake",
-          name: "Kampas Rem",
-          interval: 4000,
-          icon: "disc",
-          color: "bg-rose-500",
-        },
-        {
-          id: "valve",
-          name: "Celah Klep",
-          interval: 4000,
-          icon: "wrench",
-          color: "bg-indigo-500",
-        },
-      ];
-
-      function App() {
-        const [currentOdo, setCurrentOdo] = useState(0);
-        const [tempOdo, setTempOdo] = useState("");
-        const [logs, setLogs] = useState({});
-        const [loading, setLoading] = useState(true);
-        const [activeTab, setActiveTab] = useState("dashboard");
-        const [showAddForm, setShowAddForm] = useState(false);
-        const [customParts, setCustomParts] = useState([]);
-        const [newPart, setNewPart] = useState({ name: "", interval: "" });
-
-        useEffect(() => {
-          const savedOdo = localStorage.getItem("revo_odo");
-          const savedLogs = localStorage.getItem("revo_logs");
-          const savedCustom = localStorage.getItem("revo_custom_parts");
-          if (savedOdo) {
-            const odo = parseInt(savedOdo);
-            setCurrentOdo(odo);
-            setTempOdo(odo.toString());
+      const resetMaintenance = (item) => {
+        const newLogs = {
+          ...logs,
+          [item.id]: {
+            lastServiceAt: currentOdo,
+            updatedAt: new Date().toISOString()
           }
-          if (savedLogs) setLogs(JSON.parse(savedLogs));
-          if (savedCustom) setCustomParts(JSON.parse(savedCustom));
-          setLoading(false);
-        }, []);
-
-        const updateOdo = () => {
-          const newOdo = parseInt(tempOdo);
-          if (isNaN(newOdo)) return;
-          setCurrentOdo(newOdo);
-          localStorage.setItem("revo_odo", newOdo.toString());
         };
+        setLogs(newLogs);
+        localStorage.setItem('revo_logs', JSON.stringify(newLogs));
+      };
 
-        const resetMaintenance = (item) => {
-          const newLogs = {
-            ...logs,
-            [item.id]: {
-              lastServiceAt: currentOdo,
-              updatedAt: new Date().toISOString(),
-            },
-          };
-          setLogs(newLogs);
-          localStorage.setItem("revo_logs", JSON.stringify(newLogs));
-        };
+      const statusList = useMemo(() => {
+        return MAINTENANCE_DEFAULTS.map(item => {
+          const log = logs[item.id] || { lastServiceAt: 0 };
+          const kmSinceService = currentOdo - log.lastServiceAt;
+          const remaining = item.interval - kmSinceService;
+          const percentUsed = Math.min(100, Math.max(0, (kmSinceService / item.interval) * 100));
+          let status = "aman";
+          if (percentUsed >= 90) status = "bahaya";
+          else if (percentUsed >= 75) status = "peringatan";
+          return { ...item, kmSinceService, remaining, percentUsed, status };
+        });
+      }, [currentOdo, logs]);
 
-        const addCustomPart = () => {
-          if (!newPart.name || !newPart.interval || parseInt(newPart.interval) <= 0) return;
-          const id = "custom_" + Date.now();
-          const part = {
-            id,
-            name: newPart.name,
-            interval: parseInt(newPart.interval),
-            icon: "plus-circle",
-            color: "bg-violet-500",
-          };
-          const updated = [...customParts, part];
-          setCustomParts(updated);
-          localStorage.setItem("revo_custom_parts", JSON.stringify(updated));
-          setNewPart({ name: "", interval: "" });
-          setShowAddForm(false);
-        };
+      if (loading) return <div className="flex h-screen items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
 
-        const removeCustomPart = (id) => {
-          const updated = customParts.filter((p) => p.id !== id);
-          setCustomParts(updated);
-          localStorage.setItem("revo_custom_parts", JSON.stringify(updated));
-          const newLogs = { ...logs };
-          delete newLogs[id];
-          setLogs(newLogs);
-          localStorage.setItem("revo_logs", JSON.stringify(newLogs));
-        };
-
-        const allParts = useMemo(() => [...MAINTENANCE_DEFAULTS, ...customParts], [customParts]);
-
-        const statusList = useMemo(() => {
-          return allParts.map((item) => {
-            const log = logs[item.id] || { lastServiceAt: 0 };
-            const kmSinceService = currentOdo - log.lastServiceAt;
-            const remaining = item.interval - kmSinceService;
-            const percentUsed = Math.min(
-              100,
-              Math.max(0, (kmSinceService / item.interval) * 100),
-            );
-            let status = "aman";
-            if (percentUsed >= 90) status = "bahaya";
-            else if (percentUsed >= 75) status = "peringatan";
-            return { ...item, kmSinceService, remaining, percentUsed, status, isCustom: item.id.startsWith("custom_") };
-          });
-        }, [currentOdo, logs, allParts]);
-
-        if (loading)
-          return (
-            <div className="flex h-screen items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      return (
+        <div className="min-h-screen pb-24 max-w-md mx-auto">
+          <header className="bg-white border-b sticky top-0 z-10 px-6 py-4 flex justify-between items-center shadow-sm">
+            <div className="flex items-center gap-2">
+              <div className="bg-indigo-600 p-2 rounded-lg text-white shadow-md">
+                <Icon name="settings" className="w-5 h-5" />
+              </div>
+              <h1 className="font-black text-xl italic tracking-tight uppercase text-slate-900">RevoTrack</h1>
             </div>
-          );
+          </header>
 
-        return (
-          <div className="min-h-screen pb-24 max-w-md mx-auto">
-            <header className="bg-white border-b sticky top-0 z-10 px-6 py-4 flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <div className="bg-red-600 p-2 rounded-lg text-white">
-                  <Icon name="settings" className="w-5 h-5" />
-                </div>
-                <h1 className="font-black text-xl italic tracking-tight uppercase">
-                  RevoTrack
-                </h1>
-              </div>
-            </header>
-
-            <main className="p-4 space-y-6">
-              {/* Odometer Card Refined */}
-              <div className="bg-white rounded-3xl p-6 shadow-sm border">
-                <label className="text-xs font-bold text-slate-400 mb-3 block uppercase tracking-widest">
-                  Odometer Saat Ini (KM)
-                </label>
-                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                  <input
-                    type="number"
-                    value={tempOdo}
-                    onChange={(e) => setTempOdo(e.target.value)}
-                    className="min-w-0 bg-slate-100 rounded-2xl text-2xl font-black px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
-                    placeholder="0"
-                  />
-                  <button
-                    onClick={updateOdo}
-                    className={`shrink-0 w-14 h-[52px] rounded-2xl transition-all flex items-center justify-center font-black text-xs border ${parseInt(tempOdo) !== currentOdo ? "bg-indigo-600 text-white border-indigo-600 active:scale-[0.98]" : "bg-slate-200 text-slate-600 border-slate-300"}`}
-                  >
-                    <Icon name="save" className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex justify-between items-center px-1">
-                  <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest">
-                    Status Perawatan
-                  </h2>
-                </div>
-
-                {statusList.map((item) => (
-                  <div
-                    key={item.id}
-                    className="bg-white rounded-3xl p-5 shadow-sm border group hover:border-slate-300 transition-colors"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`${item.color} p-3 rounded-2xl text-white shadow-lg shadow-current/20 flex items-center justify-center`}
-                        >
-                          <Icon name={item.icon} className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-slate-800">
-                            {item.name}
-                          </h3>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase">
-                            {item.interval} KM
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        className={`text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider ${item.status === "bahaya" ? "bg-red-500 text-white" : item.status === "peringatan" ? "bg-amber-400 text-white" : "bg-emerald-500 text-white"}`}
-                      >
-                        {item.status === "aman"
-                          ? "Good"
-                          : item.status === "peringatan"
-                            ? "Check"
-                            : "Ganti"}
-                      </div>
-                    </div>
-                    <div className="space-y-2.5 text-[11px] font-bold">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400 uppercase tracking-tight">
-                          PAKAI: {item.kmSinceService} KM
-                        </span>
-                        <span
-                          className={
-                            item.remaining <= 0
-                              ? "text-red-500"
-                              : "text-slate-500"
-                          }
-                        >
-                          {item.remaining <= 0
-                            ? "OVERDUE!"
-                            : `SISA ${item.remaining} KM`}
-                        </span>
-                      </div>
-                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full transition-all duration-1000 ease-out ${item.percentUsed >= 90 ? "bg-red-500" : item.percentUsed >= 75 ? "bg-amber-400" : "bg-emerald-500"}`}
-                          style={{ width: `${item.percentUsed}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 mt-5">
-                      <button
-                        onClick={() => resetMaintenance(item)}
-                        className="flex-1 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-xl border border-dashed border-slate-200 transition-all active:scale-[0.98]"
-                      >
-                        Update Service Baru
-                      </button>
-                      {item.isCustom && (
-                        <button
-                          onClick={() => removeCustomPart(item.id)}
-                          className="shrink-0 w-10 py-2.5 bg-red-50 hover:bg-red-100 text-red-400 hover:text-red-600 text-[11px] font-black rounded-xl border border-dashed border-red-200 transition-all active:scale-[0.98] flex items-center justify-center"
-                        >
-                          <Icon name="trash-2" className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </main>
-
-            {/* Bottom Navigation */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t px-12 py-4 pb-8 flex justify-between items-center z-20">
-              <button
-                onClick={() => setActiveTab("dashboard")}
-                className={`transition-all ${activeTab === "dashboard" ? "text-indigo-600 scale-110" : "text-slate-300"}`}
-              >
-                <Icon name="wrench" className="w-6 h-6" />
-              </button>
-
-              <div className="relative">
+          <main className="p-4 space-y-6">
+            {/* Odometer Card Terintegrasi */}
+            <div className="bg-white rounded-3xl p-6 shadow-sm border">
+              <label className="text-xs font-bold text-slate-400 mb-3 block uppercase tracking-widest">
+                Odometer Saat Ini (KM)
+              </label>
+              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                <input
+                  type="number"
+                  value={tempOdo}
+                  onChange={(e) => setTempOdo(e.target.value)}
+                  className="min-w-0 bg-slate-100 rounded-2xl text-2xl font-black px-4 py-3.5 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
+                  placeholder="0"
+                />
                 <button
-                  onClick={() => setShowAddForm(true)}
-                  className="bg-indigo-600 text-white p-4 rounded-2xl shadow-xl shadow-indigo-200 -mt-12 border-4 border-white active:scale-90 transition-all"
+                  onClick={updateOdo}
+                  className={`shrink-0 w-14 h-[52px] rounded-2xl transition-all flex items-center justify-center font-black text-xs border ${parseInt(tempOdo) !== currentOdo ? "bg-indigo-600 text-white border-indigo-600 active:scale-[0.98]" : "bg-slate-200 text-slate-600 border-slate-300"}`}
                 >
-                  <Icon name="plus" className="w-7 h-7" />
+                  <Icon name="save" className="w-4 h-4" />
                 </button>
               </div>
+            </div>
 
-              <button
-                onClick={() => setActiveTab("history")}
-                className={`transition-all ${activeTab === "history" ? "text-indigo-600 scale-110" : "text-slate-300"}`}
-              >
-                <Icon name="history" className="w-6 h-6" />
-              </button>
-            </nav>
-
-            {/* Fullscreen Overlay for History */}
-            {activeTab === "history" && (
-              <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto animate-in slide-in-from-bottom duration-300">
-                <div className="max-w-md mx-auto">
-                  <div className="flex justify-between items-center mb-10">
-                    <h2 className="text-3xl font-black italic uppercase text-slate-900 tracking-tighter">
-                      Riwayat Log
-                    </h2>
-                    <button
-                      onClick={() => setActiveTab("dashboard")}
-                      className="p-3 bg-slate-100 rounded-full active:scale-90 transition-all text-slate-500"
-                    >
-                      <Icon name="x" className="w-6 h-6" />
-                    </button>
-                  </div>
-
-                  <div className="space-y-4">
-                    {Object.keys(logs).length === 0 ? (
-                      <div className="text-center py-24 flex flex-col items-center gap-4">
-                        <Icon
-                          name="clipboard-list"
-                          className="w-12 h-12 text-slate-200"
-                        />
-                        <p className="text-slate-300 font-black uppercase italic tracking-widest">
-                          Belum ada riwayat
-                        </p>
+            <div className="space-y-4">
+              <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest px-1">Status Perawatan</h2>
+              {statusList.map(item => (
+                <div key={item.id} className="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 group transition-all active:bg-slate-50">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`${item.color} p-3 rounded-2xl text-white shadow-lg shadow-current/20 flex items-center justify-center`}><Icon name={item.icon} className="w-5 h-5" /></div>
+                      <div>
+                        <h3 className="font-bold text-slate-800">{item.name}</h3>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase">{item.interval} KM</p>
                       </div>
-                    ) : (
-                      Object.keys(logs).map((id) => {
-                        const item = MAINTENANCE_DEFAULTS.find(
-                          (d) => d.id === id,
-                        );
-                        const date = new Date(
-                          logs[id].updatedAt,
-                        ).toLocaleDateString("id-ID", {
-                          day: "numeric",
-                          month: "short",
-                        });
-                        return (
-                          <div
-                            key={id}
-                            className="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm"
-                          >
-                            <div
-                              className={`${item?.color || "bg-slate-500"} p-3 rounded-2xl text-white shadow-md shadow-current/20`}
-                            >
-                              <Icon
-                                name={item?.icon || "settings"}
-                                className="w-5 h-5"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <p className="font-bold text-slate-800">
-                                {item?.name || id}
-                              </p>
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">
-                                {date} • Reset pada {logs[id].lastServiceAt} KM
-                              </p>
-                            </div>
-                            <div className="bg-emerald-100 text-emerald-600 px-2 py-1 rounded text-[9px] font-black uppercase">
-                              Berhasil
-                            </div>
-                          </div>
-                        );
-                      })
-                    )}
+                    </div>
+                    <div className={`text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider ${item.status === 'bahaya' ? 'bg-red-500 text-white' : item.status === 'peringatan' ? 'bg-amber-400 text-white' : 'bg-emerald-500 text-white'}`}>
+                      {item.status === 'aman' ? 'Baik' : item.status === 'peringatan' ? 'Cek' : 'Ganti'}
+                    </div>
                   </div>
-
+                  <div className="space-y-2.5 text-[11px] font-bold">
+                    <div className="flex justify-between">
+                      <span className="text-slate-400 uppercase tracking-tight">TERPAKAI: {item.kmSinceService} KM</span>
+                      <span className={item.remaining <= 0 ? "text-red-500" : "text-slate-500"}>
+                        {item.remaining <= 0 ? 'TERLEWAT!' : `SISA ${item.remaining} KM`}
+                      </span>
+                    </div>
+                    <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                      <div className={`h-full transition-all duration-1000 ease-out ${item.percentUsed >= 90 ? 'bg-red-500' : item.percentUsed >= 75 ? 'bg-amber-400' : 'bg-emerald-500'}`} style={{ width: `${item.percentUsed}%` }}></div>
+                    </div>
+                  </div>
                   <button
-                    onClick={() => setActiveTab("dashboard")}
-                    className="mt-12 w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+                    onClick={() => { if (confirm(`Konfirmasi reset ${item.name}?`)) resetMaintenance(item) }}
+                    className="mt-5 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-xl border border-dashed border-slate-200 transition-all active:scale-[0.98]"
                   >
-                    Kembali
+                    Update Service Baru
                   </button>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
+          </main>
 
-            {/* Add New Maintenance Item Modal */}
-            {showAddForm && (
-              <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end justify-center" onClick={() => setShowAddForm(false)}>
-                <div className="bg-white w-full max-w-md rounded-t-3xl p-6 pb-10 animate-in slide-in-from-bottom duration-300" onClick={(e) => e.stopPropagation()}>
-                  <div className="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
-                  <h2 className="text-lg font-black uppercase tracking-tight text-slate-800 mb-6">Tambah Item Perawatan</h2>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 block">Nama Komponen</label>
-                      <input
-                        type="text"
-                        value={newPart.name}
-                        onChange={(e) => setNewPart({...newPart, name: e.target.value})}
-                        className="w-full bg-slate-100 rounded-xl text-sm font-bold px-4 py-3 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
-                        placeholder="Contoh: V-Belt"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 block">Interval Service (KM)</label>
-                      <input
-                        type="number"
-                        value={newPart.interval}
-                        onChange={(e) => setNewPart({...newPart, interval: e.target.value})}
-                        className="w-full bg-slate-100 rounded-xl text-sm font-bold px-4 py-3 outline-none text-slate-800 focus:ring-2 focus:ring-indigo-500/20 border border-transparent focus:border-indigo-500/30"
-                        placeholder="Contoh: 8000"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex gap-3 mt-6">
-                    <button
-                      onClick={() => setShowAddForm(false)}
-                      className="flex-1 py-3.5 bg-slate-100 text-slate-500 rounded-2xl font-black uppercase tracking-widest text-xs active:scale-95 transition-all"
-                    >
-                      Batal
-                    </button>
-                    <button
-                      onClick={addCustomPart}
-                      className="flex-1 py-3.5 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-200 active:scale-95 transition-all"
-                    >
-                      Simpan
-                    </button>
-                  </div>
+          {/* Navigasi Bawah */}
+          <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t px-12 py-4 pb-8 flex justify-between items-center z-20">
+            <button onClick={() => setActiveTab('dashboard')} className={`transition-all ${activeTab === 'dashboard' ? 'text-indigo-600 scale-110' : 'text-slate-300'}`}>
+              <Icon name="wrench" className="w-6 h-6" />
+            </button>
+
+            <div className="relative">
+              <button
+                onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="bg-indigo-600 text-white p-4 rounded-2xl shadow-xl shadow-indigo-200 -mt-12 border-4 border-white active:scale-90 transition-all"
+              >
+                <Icon name="plus" className="w-7 h-7" />
+              </button>
+            </div>
+
+            <button onClick={() => setActiveTab('history')} className={`transition-all ${activeTab === 'history' ? 'text-indigo-600 scale-110' : 'text-slate-300'}`}>
+              <Icon name="history" className="w-6 h-6" />
+            </button>
+          </nav>
+
+          {/* Riwayat Overlay */}
+          {activeTab === 'history' && (
+            <div className="fixed inset-0 bg-white z-50 p-6 overflow-y-auto animate-in slide-in-from-bottom duration-300">
+              <div className="max-w-md mx-auto">
+                <div className="flex justify-between items-center mb-10">
+                  <h2 className="text-3xl font-black italic uppercase text-slate-900 tracking-tighter">Riwayat Log</h2>
+                  <button onClick={() => setActiveTab('dashboard')} className="p-3 bg-slate-100 rounded-full active:scale-90 transition-all text-slate-500">
+                    <Icon name="x" className="w-6 h-6" />
+                  </button>
                 </div>
-              </div>
-            )}
-          </div>
-        );
-      }
 
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<App />);
-    </script>
-  </body>
+                <div className="space-y-4">
+                  {Object.keys(logs).length === 0 ? (
+                    <div className="text-center py-24 flex flex-col items-center gap-4">
+                      <Icon name="clipboard-list" className="w-12 h-12 text-slate-200" />
+                      <p className="text-slate-300 font-black uppercase italic tracking-widest">Belum ada riwayat</p>
+                    </div>
+                  ) : (
+                    Object.keys(logs).sort((a, b) => new Date(logs[b].updatedAt) - new Date(logs[a].updatedAt)).map(id => {
+                      const item = MAINTENANCE_DEFAULTS.find(d => d.id === id);
+                      const date = new Date(logs[id].updatedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                      return (
+                        <div key={id} className="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
+                          <div className={`${item?.color || 'bg-slate-500'} p-3 rounded-2xl text-white shadow-md shadow-current/20`}><Icon name={item?.icon || 'settings'} className="w-5 h-5" /></div>
+                          <div className="flex-1">
+                            <p className="font-bold text-slate-800">{item?.name || id}</p>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-tight">{date} • Reset pada {logs[id].lastServiceAt} KM</p>
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+
+                <button
+                  onClick={() => setActiveTab('dashboard')}
+                  className="mt-12 w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest shadow-xl active:scale-95 transition-all"
+                >
+                  Kembali
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+
 </html>
