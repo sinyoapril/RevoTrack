@@ -32,6 +32,8 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap");
 
@@ -77,6 +79,97 @@
         to {
           opacity: 1;
         }
+      }
+
+      /* ── SweetAlert2 RevoTrack Theme ─────────────────────── */
+      .swal-revo-popup {
+        border-radius: 24px !important;
+        padding: 2rem 1.75rem !important;
+        font-family: "Inter", sans-serif !important;
+        box-shadow: 0 25px 60px -10px rgba(79,70,229,0.25) !important;
+        border: 1px solid rgba(79,70,229,0.08) !important;
+        max-width: 340px !important;
+      }
+      .swal-revo-title {
+        font-size: 1.2rem !important;
+        font-weight: 900 !important;
+        letter-spacing: -0.02em !important;
+        color: #0f172a !important;
+        text-transform: uppercase !important;
+        font-style: italic !important;
+      }
+      .swal-revo-confirm {
+        background: linear-gradient(135deg, #4f46e5, #6366f1) !important;
+        color: #fff !important;
+        border: none !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 14px !important;
+        font-weight: 900 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        cursor: pointer !important;
+        box-shadow: 0 6px 20px rgba(79,70,229,0.4) !important;
+        transition: all 0.15s ease !important;
+      }
+      .swal-revo-confirm:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 8px 24px rgba(79,70,229,0.5) !important;
+      }
+      .swal-revo-confirm-danger {
+        background: linear-gradient(135deg, #ef4444, #f87171) !important;
+        color: #fff !important;
+        border: none !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 14px !important;
+        font-weight: 900 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        cursor: pointer !important;
+        box-shadow: 0 6px 20px rgba(239,68,68,0.35) !important;
+        transition: all 0.15s ease !important;
+      }
+      .swal-revo-confirm-danger:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: 0 8px 24px rgba(239,68,68,0.5) !important;
+      }
+      .swal-revo-cancel {
+        background: #f1f5f9 !important;
+        color: #64748b !important;
+        border: none !important;
+        padding: 0.75rem 1.5rem !important;
+        border-radius: 14px !important;
+        font-weight: 900 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+      }
+      .swal-revo-cancel:hover {
+        background: #e2e8f0 !important;
+      }
+      .swal-revo-toast {
+        border-radius: 14px !important;
+        font-family: "Inter", sans-serif !important;
+        font-weight: 800 !important;
+        font-size: 13px !important;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+      }
+      /* Override Swal actions gap */
+      .swal2-actions {
+        gap: 10px !important;
+        margin-top: 1.5rem !important;
+      }
+      /* Override icon size */
+      .swal2-icon {
+        width: 56px !important;
+        height: 56px !important;
+        margin: 0 auto 1rem !important;
+      }
+      .swal2-icon .swal2-icon-content {
+        font-size: 1.6rem !important;
       }
     </style>
   </head>
@@ -477,8 +570,25 @@
           localStorage.setItem("revo_logs", JSON.stringify(newLogs));
         };
 
-        const deleteCustomItem = (itemId) => {
-          if (!confirm("Hapus item ini?")) return;
+        const deleteCustomItem = async (itemId) => {
+          const itemToDelete = allItems.find(i => i.id === itemId);
+          const result = await Swal.fire({
+            title: "Hapus Item?",
+            html: `<span style="color:#94a3b8;font-size:13px;font-weight:700;">${itemToDelete?.name || "Item ini"} akan dihapus permanen.</span>`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Hapus",
+            cancelButtonText: "Batal",
+            customClass: {
+              popup: "swal-revo-popup",
+              title: "swal-revo-title",
+              confirmButton: "swal-revo-confirm-danger",
+              cancelButton: "swal-revo-cancel",
+            },
+            buttonsStyling: false,
+            reverseButtons: true,
+          });
+          if (!result.isConfirmed) return;
           const updated = customItems.filter((i) => i.id !== itemId);
           setCustomItems(updated);
           localStorage.setItem("revo_custom_items", JSON.stringify(updated));
@@ -487,6 +597,16 @@
           delete newLogs[itemId];
           setLogs(newLogs);
           localStorage.setItem("revo_logs", JSON.stringify(newLogs));
+          Swal.fire({
+            toast: true,
+            position: "top",
+            icon: "success",
+            title: "Item berhasil dihapus",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            customClass: { popup: "swal-revo-toast" },
+          });
         };
 
         const handleAddItem = (newItem) => {
@@ -674,9 +794,36 @@
                       </div>
                     </div>
                     <button
-                      onClick={() => {
-                        if (confirm(`Konfirmasi reset ${item.name}?`))
+                      onClick={async () => {
+                        const result = await Swal.fire({
+                          title: "Update Service?",
+                          html: `<span style="color:#94a3b8;font-size:13px;font-weight:700;">Tandai <b style="color:#4f46e5">${item.name}</b> sudah diservis pada odometer <b style="color:#0f172a">${currentOdo.toLocaleString("id-ID")} KM</b>.</span>`,
+                          icon: "success",
+                          showCancelButton: true,
+                          confirmButtonText: "✓ Konfirmasi",
+                          cancelButtonText: "Batal",
+                          customClass: {
+                            popup: "swal-revo-popup",
+                            title: "swal-revo-title",
+                            confirmButton: "swal-revo-confirm",
+                            cancelButton: "swal-revo-cancel",
+                          },
+                          buttonsStyling: false,
+                          reverseButtons: true,
+                        });
+                        if (result.isConfirmed) {
                           resetMaintenance(item);
+                          Swal.fire({
+                            toast: true,
+                            position: "top",
+                            icon: "success",
+                            title: `${item.name} berhasil direset!`,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            timerProgressBar: true,
+                            customClass: { popup: "swal-revo-toast" },
+                          });
+                        }
                       }}
                       className="mt-5 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-xl border border-dashed border-slate-200 transition-all active:scale-[0.98]"
                     >
